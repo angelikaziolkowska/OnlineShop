@@ -1,0 +1,45 @@
+﻿<div class="jumbotron">
+    <h1>All Our @Model[0].CategoryName</h1>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<div class="container">
+    <div class="clearfix visible-sm"></div>
+    <div class="row">
+        @foreach (var product in Model)
+        {
+        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+            <img src="~/Content/Images/@(product.ImageName).jpg" alt="category" height="200" width="300"><br />
+            <center><h4><b>@product.Name</b></h4></center><br />
+            <p>
+                <a onclick="popup();">
+                    <div class="btn btn-default btn-lg" role="button">
+                        @*@Ajax.ActionLink("Open popup", "_OpenPopup", "Product", , new { productId = product.Id, categoryId = product.CategoryRefId })<br />*@
+
+                        @Ajax.ActionLink("Add to cart", "AddToCart", "Cart", new { productId = product.Id, categoryId = product.CategoryRefId }, new AjaxOptions { HttpMethod = "GET", UpdateTargetId = "addedToCart", InsertionMode = InsertionMode.Replace, OnSuccess = "openPopup" })
+                    </div>
+                </a>
+        </div>
+        }
+    <div class="row">
+        <div id="openPopup" class="addedToCart">Added to cart  <img src="~/Content/Images/paypal.jpg" width="70" height="18" /></div>
+        @Html.Partial("_OpenPopup")
+    </div>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+            $(document).ready(function() {
+                $("#addedToCart").dialog({
+                autoOpen: false,
+                title: 'Title',
+                width: 500,
+                height: 'auto',
+                modal: true
+                });
+                });
+                function openPopup() {
+                $("#addedToCart").dialog("open");
+                }
+    </script>
+}

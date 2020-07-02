@@ -1,0 +1,20 @@
+﻿@using OnlineShop.Dal.Models
+
+@{
+    ViewBag.Title = "Order Successful!";
+    var dateNow = DateTime.Now.AddDays(7);
+}
+
+<div class="jumbotron">
+    <h1>@ViewBag.Title</h1>
+</div>
+
+
+<div class="row container">
+    <h4>Order confiramtion has been sent to your email address. Thank you for your order. Your estimated delivery date is @(dateNow.ToString("dd/MM/yyyy")).<br /> 
+    Rate our online store system created by <a href="">Angel©</a></h4>
+</div>
+
+
+
+

@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <style>
+        h1, h2, h3 {
+            font-family: 'Lobster', sans-serif;
+            text-shadow: 4px 4px 4px #aaa;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink(" ", "Index", "Home", new { area = "" }, new { @class = "navbar-brand glyphicon glyphicon-home" })
+            </div>
+            <div class="navbar-collapse collapse" >
+                <ul class="nav navbar-nav inline-navbar">
+                    <li>
+
+                        @Html.ActionLink(" ", "Category", "Home", "", new { @class = "glyphicon glyphicon-search" })
+
+                    </li>
+                    
+                    <li>
+                        
+                            @Html.ActionLink(" ", "Cart", "Cart", " ", new { @class = "glyphicon glyphicon-shopping-cart" })
+                            @{Html.RenderAction("_CartCount", "Cart");}
+                        
+                    </li>
+                    
+
+                    <li>@Html.ActionLink(" ", "Contact", "Home", "", new { @class = "glyphicon glyphicon-envelope" })</li>
+                </ul>
+        </div>
+    </div>
+</div>
+<div class="container body-content">
+    @RenderBody()
+    <hr />
+    <footer>
+        <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+    </footer>
+</div>
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+<script>
+    $(document).ready(function(){
+        $(".Count").load('@Url.Action("GetCartCount", "Cart")')
+    });
+</script>
+@RenderSection("scripts", required: false)
+</body>
+</html>

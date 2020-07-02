@@ -1,0 +1,23 @@
+﻿@using OnlineShop.Dal.Models
+
+@{
+    ViewBag.BillingDetailsTitle = "Add Billing Details";
+}
+<form method="post">      
+    <div class="form-group row">
+        <div class="Billing col-md-10">
+            <h4 align="center">@ViewBag.BillingDetailsTitle</h4>
+            <input type="text" class="form-control" id="billingName" placeholder="Name on card">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="Billing col-md-10">
+            <input type="text" class="form-control" id="billingAddress" placeholder="Address">
+        </div>
+    </div>
+    <div class="form-group row">
+        <div class="Billing col-md-10">
+            <input type="text" class="form-control" id="billingPostcode" placeholder="Postcode">
+        </div>
+    </div>           
+</form>

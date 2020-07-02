@@ -1,0 +1,14 @@
+﻿@using OnlineShop.Dal.Models
+
+    <form method="post">
+        <div class="Opt form-group">
+            @foreach (int plan in Enum.GetValues(typeof(PayInMonths)))            
+            {
+                <div class="Opt">
+                    @Html.RadioButton("installments", plan, true)
+                    @Html.Label(plan.ToString()) months
+                </div>
+            }           
+            <button type="submit" value="installments" class="btn btn-default btn-lg">Checkout</button>
+        </div>
+    </form>

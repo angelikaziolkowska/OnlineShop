@@ -1,0 +1,140 @@
+﻿@model OnlineShop.Models.CartViewModel
+
+@{
+    ViewBag.Title = "Checkout";
+    var dateNow = DateTime.Now.AddDays(7);
+    var installment = Model.CartContents.Sum(x => x.LineTotal) / Model.Installments;
+}
+
+<div class="jumbotron">
+    <h1>@ViewBag.Title</h1>
+</div>
+
+
+<div class="row">
+    <div class="col-lg-12">
+        @if (Model.Installments != null)
+        {
+            <h2>
+                Pay in @Model.Installments monthly installments.<br />
+                That's £@(string.Format("{0:n2}", installment)) a month!
+            </h2>
+        }
+        else
+        {
+            <h2>
+                Pay £@(Model.CartContents.Sum(x => x.LineTotal)) now!
+            </h2>
+        }
+
+        @* Payment Plan Table with columns Installment1 | Date of Direct Debit | Payment   *@
+
+        <table class="table table-striped table-dark">
+            <thead>
+                <tr align="center">
+                    <th scope="col">Installments</th>
+                    <th scope="col">Date of Direct Debit</th>
+                    <th>Payment</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Installments != null)
+                {
+                    for (int i = 1; i <= Model.Installments; i++)
+                    {
+                        <tr>
+                            <td>Installment @i</td>
+                            <td>@(dateNow.AddMonths(i - 1).ToString("dd/MM/yyyy"))</td>
+                            <td>£@(string.Format("{0:n2}", installment))</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+            <!--Add footer for totals-->
+        </table>
+
+
+
+
+        <ul class="nav nav-pills nav-fill" id="Opt">
+            <li class="nav-item">
+                <div id="card" class="nav-link active">Pay with card</div>
+                @Html.Partial("_Card")
+            </li>
+            <li class="nav-item">
+                <div id="paypal" class="nav-link">Pay with  <img src="~/Content/Images/paypal.jpg" width="70" height="18" /></div>
+                @Html.Partial("_Paypal")
+            </li>
+        </ul>
+    </div>
+</div>
+
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#card").click(function () {
+                if ($(".Paypal").hasClass("Visible")) {
+                    $(".Paypal").removeClass("Visible");
+                    $(".Card").addClass("Visible");
+                }
+                else {
+                    if ($(".Card").hasClass("Visible")) {
+                        $(".Card").removeClass("Visible");
+                    }
+                    else {
+                         $(".Card").addClass("Visible");
+                    }  
+                }          
+            });
+        });
+
+        $(document).ready(function () {
+            $("#paypal").click(function () {
+                if ($(".Card").hasClass("Visible")) {
+                    $(".Card").removeClass("Visible");
+                    $(".Paypal").addClass("Visible");
+                }
+                else {
+                    if ($(".Paypal").hasClass("Visible")) {
+                        $(".Paypal").removeClass("Visible");
+                    }
+                    else {
+                         $(".Paypal").addClass("Visible");
+                    }                   
+                }          
+            });
+        });
+
+        //function to show billing details when clicked and hide them when clicked again
+        $(document).ready(function () {
+            $("#billingDetails").change(function () {
+                var opt = this.value;
+                if (opt == "yes") {
+                    $(".Billing").removeClass("Visible");
+                }
+                else {
+                    $(".Billing").addClass("Visible");
+                }            
+            });
+        });
+      
+        //$(function() {
+        //    $('.date-picker').datepicker( {
+        //        changeMonth: true,
+        //        changeYear: true,
+        //        showButtonPanel: true,
+        //        dateFormat: 'MM yy',
+        //        onClose: function(dateText, inst) { 
+        //            var month = $("#ui-datepicker-div .ui-datepicker-month :selected").val();
+        //            var year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+        //            $(this).datepicker('setDate', new Date(year, month, 1));
+        //        }
+        //    });
+        //});
+        
+    </script>
+}
+
+
+
+

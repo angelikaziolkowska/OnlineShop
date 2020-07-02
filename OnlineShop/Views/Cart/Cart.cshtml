@@ -1,0 +1,109 @@
+﻿@model OnlineShop.Models.CartViewModel
+
+@{
+    ViewBag.Title = "Home Page";
+}
+
+
+
+<div class="jumbotron">
+    <h1>Shopping Cart</h1>
+</div>
+
+<div class="container">
+    <div class="row">
+        @if (!Model.CartContents.Any())
+        {
+            <h5>Cart is empty.</h5><br />
+            <button class="btn btn-default btn-lg" align="center" role="button">
+                @Html.ActionLink("Go to Shop", "Category", "Home", "", "")
+            </button>
+
+
+        }
+        else
+        {
+            <table class="table col-lg-4 col-md-4 col-sm-6 col-xs-12 table-responsive table-hover">
+                <thead>
+                    <tr>
+                        <th>Products</th>
+                        <th> </th>
+                        <th>Quantity</th>
+                        <th>Price per each</th>
+                        <th>Price</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cartItem in Model.CartContents)
+                    {@*@for(int i = 0; i < Model.db.Carts.Where(); i++)*@
+
+                    <tr>
+                        <td>
+                            <img src="~/Content/Images/@(cartItem.ImageName.ToString()).jpg" alt="product" height="200" width="300"><br />
+
+                        </td>
+                        <td>@cartItem.ProductName</td>
+                        <td>
+                            <div class="text-left" role="gridcell">
+                                x @cartItem.Quantity
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-left" role="gridcell">
+                                £@cartItem.ProductPrice
+                            </div>
+                        </td>
+                        <td>
+                            <div class="text-left" role="gridcell">
+                                £@(cartItem.LineTotal)
+                            </div>
+                        </td>
+                        <td>
+                            <div role="gridcell">
+                                <center>
+                                    <div class="glyphicon">
+
+                                        <h5>
+                                            @Html.ActionLink(" + ", "AddToCart", new { productId = cartItem.ProductRefId, @class = "glyphicon glyphicon-plus" })
+                                        </h5>
+                                    </div>
+                                    <div class="glyphicon">
+                                        <h1>@Html.ActionLink(" - ", "DeleteFromCart", new { productId = cartItem.ProductRefId, @class = "glyphicon glyphicon-minus" })</h1>
+                                    </div>
+                                </center>
+                            </div>
+                        </td>
+                    </tr>
+                }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td class="right" colspan="5">Total:</td>
+                        <td class="right" align="left">
+                            <h3>£@(string.Format("{0:n2}", Model.CartContents.Sum(x => x.LineTotal)))</h3>
+                            <div class="btn btn-default btn-lg" role="button">
+                                @Html.ActionLink("Pay Now", "Cart", "Cart", new { })
+                            </div><br />
+                            <div id="installments" class="btn btn-default btn-lg">Pay in installments.</div>
+                            @Html.Partial("_Installments")
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+
+
+
+        }
+    </div>
+</div>
+@section scripts {
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $("#installments").click(function () {
+                $(".Opt").addClass("Visible");
+            });
+        });
+    </script>
+}
